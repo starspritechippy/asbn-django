@@ -17,6 +17,7 @@
             {% if missing_datum %} {% endif %}
             <label for="datum">Datum:</label>
             <input type="date" id="datum" name="datum">
+            <button type="button" onclick="const d = new Date(); const iso = d.toISOString(); document.getElementById('datum').value = iso.substring(0, iso.indexOf('T'))">Heute</button>
             {% if missing_datum %} Bitte Eintragen! {% endif %}
             <br><br>
 
