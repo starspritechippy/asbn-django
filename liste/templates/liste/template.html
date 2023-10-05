@@ -15,10 +15,28 @@
             padding-bottom: 5px;
         }
     </style>
+    <script>
+        function todayISO() {
+            const d = new Date(); 
+            const iso = d.toISOString(); 
+            return iso.substring(0, iso.indexOf('T'))
+        }
+    </script>
 </head>
 
 <body>
     {% if asbn_list %}
+    <form action="">{% csrf_token %}
+        <label for="date_from">Von: </label>
+        <input type="date" id="date_from" name="date_from">
+        <button type="button" onclick="document.getElementById('date_from').value = todayISO()">Heute</button>
+
+        <label for="date_to">Bis: </label>
+        <input type="date" id="date_to" name="date_to">
+        <button type="button" onclick="document.getElementById('date_to').value = todayISO()">Heute</button>
+
+        <hr>
+    </form>
     <table>
         <tr>
             <th>Datum</th>
