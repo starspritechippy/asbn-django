@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -15,13 +16,7 @@
             padding-bottom: 5px;
         }
     </style>
-    <script>
-        function todayISO() {
-            const d = new Date(); 
-            const iso = d.toISOString(); 
-            return iso.substring(0, iso.indexOf('T'))
-        }
-    </script>
+    <script src="{% static 'date.js' %}"></script>
 </head>
 
 <body>

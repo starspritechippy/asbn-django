@@ -22,3 +22,4 @@ urlpatterns = [
     path('formular/', include("formular.urls")),
     path('liste/', include("liste.urls"))
 ]
+ 

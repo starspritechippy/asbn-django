@@ -22,12 +22,12 @@ def index(request):
     db_cursor.execute(
         "SELECT * FROM `asbn` ORDER BY `date` ASC, `time_start` ASC;"
     )
-    stuff = list(db_cursor)
+    zeilen = list(db_cursor)
 
     # step 1 Daten abfragen (nach anforderung?)
     # step 2 daten in template einbinden
     context = {
-        "asbn_list": stuff
+        "asbn_list": zeilen
     }
     db_conn.close()
     return HttpResponse(template.render(context, request))

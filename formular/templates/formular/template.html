@@ -1,15 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>Formular Seite</title>
-        <script>
-            function todayISO() {
-                const d = new Date(); 
-                const iso = d.toISOString(); 
-                return iso.substring(0, iso.indexOf('T'))
-            }
-        </script>
+        <script src="{% static 'date.js' %}"></script>
     </head>
     <body>
         {% if error %} 
@@ -44,7 +39,7 @@
             <br><br>
 
             <label for="submit-form">Absenden:</label>
-            <input type="submit" id="submit-form" name="submit-form">
+            <input type="submit" id="submit-form" name="submit-form" onclick="return absenden()">
         </form>
     </body>
 </html>
