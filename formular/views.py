@@ -59,4 +59,6 @@ def send_form(request):
         (datum, startzeit, endzeit, activity)
     )
 
+    db_conn.close()
+
     return redirect("/formular/?success=1")
