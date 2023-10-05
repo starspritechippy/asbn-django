@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Formular Seite</title>
+    </head>
+    <body>
+        {% if error %} 
+            <p>Ein Fehler ist aufegetreten!</p>
+
+            <hr> 
+        {% endif %}
+        {% if success %} 
+            <p>Daten erfolgreich gespeichert!</p>
+        {% endif %}
+        <form action="/formular/send_form" method="post">{% csrf_token %}
+            {% if missing_datum %} {% endif %}
+            <label for="datum">Datum:</label>
+            <input type="date" id="datum" name="datum">
+            {% if missing_datum %} Bitte Eintragen! {% endif %}
+            <br><br>
+
+            <label for="startzeit">Startzeit:</label>
+            <input type="time" id="startzeit" name="startzeit">
+            {% if missing_startzeit %} Bitte Eintragen! {% endif %}
+            <br><br>
+
+            <label for="endzeit">Endzeit:</label>
+            <input type="time" id="endzeit" name="endzeit">
+            {% if missing_endzeit %} Bitte Eintragen! {% endif %}
+            <br><br>
+
+            <label for="activity">Kommentar:</label>
+            <input type="text" id="activity" name="activity">
+            {% if missing_activity %} Bitte Eintragen! {% endif %}
+            <br><br>
+
+            <label for="submit-form">Absenden:</label>
+            <input type="submit" id="submit-form" name="submit-form">
+        </form>
+    </body>
+</html>
