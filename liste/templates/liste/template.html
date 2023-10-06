@@ -30,6 +30,10 @@
         <input type="date" id="date_to" name="date_to">
         <button type="button" onclick="document.getElementById('date_to').value = todayISO()">Heute</button>
 
+        <label for="date_kw">Oder KW: </label>
+        <input type="number" min="1" max="53" id="date_kw" name="date_kw">
+        <button type="button" onclick="document.getElementById('date_kw').value = todayWeek()">Heute</button>
+
         <hr>
     </form>
     <table>
