@@ -37,39 +37,48 @@ function absenden() {
     var absenden = true;
 
     if (!(datum.value)) {
-        datum_missing_error.style = "display: block; color: red;"
+        datum_missing_error.classList.add("has-error")
         absenden = false;
     } else {
-        datum_missing_error.style = "display: none; color: red;"
+        datum_missing_error.classList.remove("has-error")
     }
 
     if (!(startzeit.value)) {
-        startzeit_missing_error.style = "display: block; color: red;"
+        startzeit_missing_error.classList.add("has-error")
         absenden = false;
     } else {
-        startzeit_missing_error.style = "display: none;"
+        startzeit_missing_error.classList.remove("has-error")
     }
 
     if (!(endzeit.value)) {
-        endzeit_missing_error.style = "display: block; color: red;"
+        endzeit_missing_error.classList.add("has-error")
         absenden = false;
     } else {
-        endzeit_missing_error.style = "display: none;"
+        endzeit_missing_error.classList.remove("has-error")
     }
 
     if (!(activity.value)) {
-        activity_missing_error.style = "display: block; color: red;"
+        activity_missing_error.classList.add("has-error")
         absenden = false;
     } else {
-        activity_missing_error.style = "display: none; color: red;"
+        activity_missing_error.classList.remove("has-error")
     }
 
     if (endzeit.value && startzeit.value && endzeit.valueAsDate <= startzeit.valueAsDate) {
-        endzeit_time_error.style = "display: block; color: red;"
+        endzeit_time_error.classList.add("has-error")
         absenden = false;
     } else {
-        endzeit_time_error.style = "display: none; color: red;"
+        endzeit_time_error.classList.remove("has-error")
     }
 
     return absenden;
+}
+
+function checkIfInput(el) {
+    console.log(el)
+    if (!(el.value)) {
+        el.classList.add("has-error")
+    } else {
+        el.classList.remove("has-error")
+    }
 }

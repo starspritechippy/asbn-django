@@ -25,11 +25,14 @@ def index(request):
             db_cursor.execute("SELECT * FROM `asbn` WHERE `date` = ? ORDER BY `time_start` ASC;", [date_from])
         else:
             db_cursor.execute("SELECT * FROM `asbn` WHERE `date` BETWEEN ? AND ? ORDER BY `date` ASC, `time_start` ASC;", [date_from, date_to])
+    
     elif kw := request.GET.get("date_kw"):
         db_cursor.execute("SELECT * FROM `asbn` WHERE WEEK(`date`) = ? ORDER BY `date` ASC, `time_start` ASC;", [kw])
+    
     else:
         db_cursor.execute("SELECT * FROM `asbn` ORDER BY `date` ASC, `time_start` ASC;")
     result = db_cursor.fetchall()
+    db_conn.close()
 
     asbn_list = []
     date = ""
@@ -45,10 +48,7 @@ def index(request):
     if entries:
         asbn_list.append(entries)
 
-    # step 1 Daten abfragen (nach anforderung?)
-    # step 2 daten in template einbinden
     context = {
         "asbn_list": asbn_list
     }
-    db_conn.close()
     return HttpResponse(template.render(context, request))
