@@ -15,6 +15,9 @@
             padding-top: 5px;
             padding-bottom: 5px;
         }
+        td.divider {
+            border: none;
+        }
     </style>
     <script src="{% static 'date.js' %}"></script>
 </head>
@@ -43,13 +46,16 @@
             <th>Endzeit</th>
             <th>Kommentar</th>
         </tr>
-        {% for entry in asbn_list %}
-        <tr>
-            <td>{{ entry.date }}</td>
-            <td>{{ entry.time_start }}</td>
-            <td>{{ entry.time_end }}</td>
-            <td>{{ entry.activity }}</td>
-        </tr>
+        {% for group in asbn_list %}
+        <tr><td colspan="4" class="divider"></td></tr>
+            {% for entry in group %}
+            <tr>
+                <td>{{ entry.date }}</td>
+                <td>{{ entry.time_start }}</td>
+                <td>{{ entry.time_end }}</td>
+                <td>{{ entry.activity }}</td>
+            </tr>
+            {% endfor %}
         {% endfor %}
     </table>
     {% else %}

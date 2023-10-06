@@ -25,12 +25,26 @@ def index(request):
         db_cursor.execute("SELECT * FROM `asbn` WHERE WEEK(`date`) = ? ORDER BY `date` ASC, `time_start` ASC;", [kw])
     else:
         db_cursor.execute("SELECT * FROM `asbn` ORDER BY `date` ASC, `time_start` ASC;")
-    zeilen = list(db_cursor)
+    zeilen = db_cursor.fetchall()
+
+    daten = []
+    date = ""
+    entries = []
+    for zeile in zeilen:
+        if zeile["date"] != date:
+            if entries:
+                daten.append(entries)
+                entries = []
+            date = zeile["date"]
+        entries.append(zeile)
+
+    if entries:
+        daten.append(entries)
 
     # step 1 Daten abfragen (nach anforderung?)
     # step 2 daten in template einbinden
     context = {
-        "asbn_list": zeilen
+        "asbn_list": daten
     }
     db_conn.close()
     return HttpResponse(template.render(context, request))
