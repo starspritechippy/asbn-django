@@ -20,31 +20,35 @@ def index(request):
     
     db_cursor = db_conn.cursor(dictionary=True)
 
-    if kw := request.GET.get("kw"):
-        print(kw)
+    if (date_from := request.GET.get("date_from")) and (date_to := request.GET.get("date_to")):
+        if date_from == date_to:
+            db_cursor.execute("SELECT * FROM `asbn` WHERE `date` = ? ORDER BY `time_start` ASC;", [date_from])
+        else:
+            db_cursor.execute("SELECT * FROM `asbn` WHERE `date` BETWEEN ? AND ? ORDER BY `date` ASC, `time_start` ASC;", [date_from, date_to])
+    elif kw := request.GET.get("date_kw"):
         db_cursor.execute("SELECT * FROM `asbn` WHERE WEEK(`date`) = ? ORDER BY `date` ASC, `time_start` ASC;", [kw])
     else:
         db_cursor.execute("SELECT * FROM `asbn` ORDER BY `date` ASC, `time_start` ASC;")
-    zeilen = db_cursor.fetchall()
+    result = db_cursor.fetchall()
 
-    daten = []
+    asbn_list = []
     date = ""
     entries = []
-    for zeile in zeilen:
-        if zeile["date"] != date:
+    for row in result:
+        if row["date"] != date:
             if entries:
-                daten.append(entries)
+                asbn_list.append(entries)
                 entries = []
-            date = zeile["date"]
-        entries.append(zeile)
+            date = row["date"]
+        entries.append(row)
 
     if entries:
-        daten.append(entries)
+        asbn_list.append(entries)
 
     # step 1 Daten abfragen (nach anforderung?)
     # step 2 daten in template einbinden
     context = {
-        "asbn_list": daten
+        "asbn_list": asbn_list
     }
     db_conn.close()
     return HttpResponse(template.render(context, request))
