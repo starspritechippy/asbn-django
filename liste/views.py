@@ -17,11 +17,14 @@ def index(request):
         )
     except mariadb.Error as e:
         return HttpResponseServerError(f"Fehler beim verbinden mit der Datenbank: {e}")
-
+    
     db_cursor = db_conn.cursor(dictionary=True)
-    db_cursor.execute(
-        "SELECT * FROM `asbn` ORDER BY `date` ASC, `time_start` ASC;"
-    )
+
+    if kw := request.GET.get("kw"):
+        print(kw)
+        db_cursor.execute("SELECT * FROM `asbn` WHERE WEEK(`date`) = ? ORDER BY `date` ASC, `time_start` ASC;", [kw])
+    else:
+        db_cursor.execute("SELECT * FROM `asbn` ORDER BY `date` ASC, `time_start` ASC;")
     zeilen = list(db_cursor)
 
     # step 1 Daten abfragen (nach anforderung?)
