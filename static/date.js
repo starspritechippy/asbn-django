@@ -5,35 +5,52 @@ function todayISO() {
 }
 
 function absenden() {
-    const datum     = document.getElementById("datum");
-    const startzeit = document.getElementById("startzeit");
-    const endzeit   = document.getElementById("endzeit");
-    const activity  = document.getElementById("activity");
+    const datum                   = document.getElementById("datum");
+    const datum_missing_error     = document.getElementById("datum_missing_error");
+    const startzeit               = document.getElementById("startzeit");
+    const startzeit_missing_error = document.getElementById("startzeit_missing_error");
+    const endzeit                 = document.getElementById("endzeit");
+    const endzeit_missing_error   = document.getElementById("endzeit_missing_error");
+    const activity                = document.getElementById("activity");
+    const activity_missing_error  = document.getElementById("activity_missing_error");
+    const endzeit_time_error      = document.getElementById("endzeit_time_error");
+
+    var absenden = true;
 
     if (!(datum.value)) {
-        alert("Datum fehlt.");
-        return false;
+        datum_missing_error.style = "display: block; color: red;"
+        absenden = false;
+    } else {
+        datum_missing_error.style = "display: none; color: red;"
     }
 
     if (!(startzeit.value)) {
-        alert("Startzeit fehlt.");
-        return false;
+        startzeit_missing_error.style = "display: block; color: red;"
+        absenden = false;
+    } else {
+        startzeit_missing_error.style = "display: none;"
     }
 
     if (!(endzeit.value)) {
-        alert("Endzeit fehlt.");
-        return false;
+        endzeit_missing_error.style = "display: block; color: red;"
+        absenden = false;
+    } else {
+        endzeit_missing_error.style = "display: none;"
     }
 
     if (!(activity.value)) {
-        alert("Kommentar fehlt.");
-        return false;
+        activity_missing_error.style = "display: block; color: red;"
+        absenden = false;
+    } else {
+        activity_missing_error.style = "display: none; color: red;"
     }
 
-    if (endzeit.valueAsDate <= startzeit.valueAsDate) {
-        alert("Endzeit muss später als Startzeit sein.");
-        return false;
+    if (endzeit.value && startzeit.value && endzeit.valueAsDate <= startzeit.valueAsDate) {
+        endzeit_time_error.style = "display: block; color: red;"
+        absenden = false;
+    } else {
+        endzeit_time_error.style = "display: none; color: red;"
     }
 
-    return true;
+    return absenden;
 }

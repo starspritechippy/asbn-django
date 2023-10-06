@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from django.http import HttpResponse, HttpResponseServerError
 from django.template import loader
 from django.shortcuts import redirect
@@ -39,6 +40,9 @@ def send_form(request):
         redirect_url = "/formular/?error=1&errors=" + ",".join(redirect_params)
         # z.B. ?error=1&errors=missing_datum,missing_startzeit,missing_activity
         return redirect(redirect_url)
+    
+    if datetime.strptime(startzeit, "%H:%M") > datetime.strptime(endzeit, "%H:%M"):
+        return redirect("/formular/?error=1&errors=endzeit_time_error")
     
     load_dotenv()
 

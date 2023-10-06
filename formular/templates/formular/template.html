@@ -20,22 +20,37 @@
             <label for="datum">Datum:</label>
             <input type="date" id="datum" name="datum">
             <button type="button" onclick="document.getElementById('datum').value = todayISO()">Heute</button>
+            <br><span id="datum_missing_error" style="display: none; color: red;">Bitte eintragen!</span>
             {% if missing_datum %} Bitte Eintragen! {% endif %}
             <br><br>
 
             <label for="startzeit">Startzeit:</label>
             <input type="time" id="startzeit" name="startzeit">
+            <br><span id="startzeit_missing_error" style="display: none; color: red;">Bitte eintragen!</span>
             {% if missing_startzeit %} Bitte Eintragen! {% endif %}
             <br><br>
 
             <label for="endzeit">Endzeit:</label>
             <input type="time" id="endzeit" name="endzeit">
-            {% if missing_endzeit %} Bitte Eintragen! {% endif %}
-            <br><br>
+            {% if missing_endzeit %}
+            <br><span id="endzeit_missing_error" style="display: block; color: red;">Bitte eintragen!</span>
+            {% else %}
+            <br><span id="endzeit_missing_error" style="display: none; color: red;">Bitte eintragen!</span>
+            {% endif %}
+            {% if endzeit_time_error %}
+            <br><span id="endzeit_time_error" style="display: block; color: red;">Eindzeit kann nicht eher als Startzeit sein!</span>
+            {% else %}
+            <br><span id="endzeit_time_error" style="display: none; color: red;">Eindzeit kann nicht eher als Startzeit sein!</span>
+            {% endif %}
+            <br>
 
             <label for="activity">Kommentar:</label>
             <input type="text" id="activity" name="activity">
-            {% if missing_activity %} Bitte Eintragen! {% endif %}
+            {% if missing_activity %}
+            <br><span id="activity_missing_error" style="display: block; color: red;">Bitte eintragen!</span>
+            {% else %}
+            <br><span id="activity_missing_error" style="display: none; color: red;">Bitte eintragen!</span>
+            {% endif %}
             <br><br>
 
             <label for="submit-form">Absenden:</label>
