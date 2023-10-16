@@ -36,11 +36,8 @@
         <input type="number" min="1" max="53" id="date_kw" name="date_kw" {% if date_kw %} value="{{ date_kw }}" {% endif %}>
         <button type="button" onclick="document.getElementById('date_kw').value = todayWeek()">Heute</button>
         
-        <button>Abschicken</button>
-
-        <b>⋅</b>
-
-        <button type="button">PDF generieren</button>
+        <input type="submit" formaction="" name="submit_form" value="Abschicken">
+        <input type="submit" formaction="./pdf_gen" name="pdf_gen_btn" id="pdf_gen_btn" value="PDF generieren">
         
         <hr>
     </form>
