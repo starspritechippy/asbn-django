@@ -22,15 +22,15 @@ def index(request):
 
     if (date_from := request.GET.get("date_from")) and (date_to := request.GET.get("date_to")):
         if date_from == date_to:
-            db_cursor.execute("SELECT * FROM `asbn` WHERE `date` = ? ORDER BY `time_start` ASC;", [date_from])
+            db_cursor.execute("SELECT *, WEEK(`date`) AS kw FROM `asbn` WHERE `date` = ? ORDER BY `time_start` ASC;", [date_from])
         else:
-            db_cursor.execute("SELECT * FROM `asbn` WHERE `date` BETWEEN ? AND ? ORDER BY `date` ASC, `time_start` ASC;", [date_from, date_to])
+            db_cursor.execute("SELECT *, WEEK(`date`) AS kw FROM `asbn` WHERE `date` BETWEEN ? AND ? ORDER BY `date` ASC, `time_start` ASC;", [date_from, date_to])
     
     elif kw := request.GET.get("date_kw"):
-        db_cursor.execute("SELECT * FROM `asbn` WHERE WEEK(`date`) = ? ORDER BY `date` ASC, `time_start` ASC;", [kw])
+        db_cursor.execute("SELECT *, WEEK(`date`) AS kw FROM `asbn` WHERE WEEK(`date`) = ? ORDER BY `date` ASC, `time_start` ASC;", [kw])
     
     else:
-        db_cursor.execute("SELECT * FROM `asbn` ORDER BY `date` ASC, `time_start` ASC;")
+        db_cursor.execute("SELECT *, WEEK(`date`) AS kw FROM `asbn` ORDER BY `date` ASC, `time_start` ASC;")
     result = db_cursor.fetchall()
     db_conn.close()
 
@@ -49,6 +49,9 @@ def index(request):
         asbn_list.append(entries)
 
     context = {
-        "asbn_list": asbn_list
+        "asbn_list": asbn_list,
+        "date_from": request.GET.get("date_from"),
+        "date_to": request.GET.get("date_to"),
+        "date_kw": request.GET.get("date_kw"),
     }
     return HttpResponse(template.render(context, request))

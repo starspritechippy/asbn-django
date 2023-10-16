@@ -25,24 +25,29 @@
 <body>
     <form action="">{% csrf_token %}
         <label for="date_from">Von: </label>
-        <input type="date" id="date_from" name="date_from">
+        <input type="date" id="date_from" name="date_from" {% if date_from %} value="{{ date_from }}" {% endif %}>
         <button type="button" onclick="document.getElementById('date_from').value = todayISO()">Heute</button>
         
         <label for="date_to">Bis: </label>
-        <input type="date" id="date_to" name="date_to">
+        <input type="date" id="date_to" name="date_to" {% if date_to %} value="{{ date_to }}" {% endif %}>
         <button type="button" onclick="document.getElementById('date_to').value = todayISO()">Heute</button>
         
         <label for="date_kw">Oder KW: </label>
-        <input type="number" min="1" max="53" id="date_kw" name="date_kw">
+        <input type="number" min="1" max="53" id="date_kw" name="date_kw" {% if date_kw %} value="{{ date_kw }}" {% endif %}>
         <button type="button" onclick="document.getElementById('date_kw').value = todayWeek()">Heute</button>
         
         <button>Abschicken</button>
+
+        <b>⋅</b>
+
+        <button type="button">PDF generieren</button>
         
         <hr>
     </form>
     {% if asbn_list %}
     <table>
         <tr>
+            <th>KW</th>
             <th>Datum</th>
             <th>Startzeit</th>
             <th>Endzeit</th>
@@ -52,6 +57,7 @@
         <tr><td colspan="4" class="divider"></td></tr>
             {% for entry in group %}
             <tr>
+                <td>{{ entry.kw }}</td>
                 <td>{{ entry.date }}</td>
                 <td>{{ entry.time_start }}</td>
                 <td>{{ entry.time_end }}</td>
