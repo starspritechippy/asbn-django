@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.template import loader
 import mariadb
 from pypdf import PdfReader, PdfWriter
+from pypdf.generic._base import NameObject
 from io import BytesIO
 
 
@@ -127,6 +128,14 @@ def pdf_gen(request):
     reader = PdfReader("Vorlage_ASBN.pdf")
     writer = PdfWriter()
 
+    fields = reader.get_fields()
+    dropdown_obj = fields["Dropdown13_es_:sender:signatureblock"]
+    dropdown_obj_number = dropdown_obj.indirect_reference.idnum
+
+    dropdown_obj = reader.get_object(dropdown_obj_number)
+    dropdown_obj.update({NameObject("/FT"): NameObject("/Tx")})
+    del dropdown_obj["/DV"]
+
     writer.append(reader)
     writer.update_page_form_field_values(
         writer.pages[0],
@@ -169,4 +178,5 @@ def pdf_gen(request):
 
     xfile.seek(0)
     contents = xfile.read()
+    xfile.close()
     return HttpResponse(contents, content_type="application/pdf")
